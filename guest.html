@@ -176,10 +176,17 @@
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
     <script>
-        const map = L.map('map').setView([-7.960061243011885, 112.62048652662472], 15);
+        const map = L.map('map', {
+            dragging: false,
+            scrollWheelZoom: false,
+            doubleClickZoom: false,
+            touchZoom: false,
+            boxZoom: false,
+            keyboard: false,
+            zoomControl: false
+        }).setView([-7.960061243011885, 112.62048652662472], 15);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
         }).addTo(map);
         setTimeout(() => map.invalidateSize(), 300);
 

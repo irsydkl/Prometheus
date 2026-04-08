@@ -14,15 +14,20 @@
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
-        .outfit { font-family: 'Outfit'; }
-        .leaflet-container { z-index: 1 !important; }
+
+        .outfit {
+            font-family: 'Outfit';
+        }
+
+        .leaflet-container {
+            z-index: 1 !important;
+        }
     </style>
 </head>
 
 <body class="outfit bg-[#010101]">
     <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar"
-        type="button"
-        class="text-white bg-[#141414] fixed top-3 left-3 z-50 p-2 rounded-lg inline-flex sm:hidden">
+        type="button" class="text-white bg-[#141414] fixed top-3 left-3 z-50 p-2 rounded-lg inline-flex sm:hidden">
         <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
             <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h10" />
         </svg>
@@ -41,11 +46,13 @@
                     </ul>
                 </li>
                 <li class="hidden sm:flex items-center justify-center py-[140px]">
-                    <span class="inline-block -rotate-90 text-white text-[40px] tracking-widest font-bold whitespace-nowrap">PROMETHEUS</span>
+                    <span
+                        class="inline-block -rotate-90 text-white text-[40px] tracking-widest font-bold whitespace-nowrap">PROMETHEUS</span>
                 </li>
             </ul>
             <div class="flex justify-center pb-6">
-                <button onclick="logout()" class="bg-red-600 hover:bg-red-800 text-white font-bold px-2 sm:px-3 py-2 rounded-xl transition-colors text-xs sm:text-sm">Logout</button>
+                <button onclick="logout()"
+                    class="bg-red-600 hover:bg-red-800 text-white font-bold px-2 sm:px-3 py-2 rounded-xl transition-colors text-xs sm:text-sm">Logout</button>
             </div>
         </div>
     </aside>
@@ -62,7 +69,8 @@
                     <div class="bg-[#262628] border border-[#676767] sm:col-span-2 p-3 sm:p-4 mt-3 rounded-xl">
                         <div class="grid grid-cols-3 gap-3">
                             <div class="col-span-2 text-left">
-                                <h1 class="text-white/50 text-sm sm:text-lg lg:text-[25px] font-semibold">Posisi Kapal</h1>
+                                <h1 class="text-white/50 text-sm sm:text-lg lg:text-[25px] font-semibold">Posisi Kapal
+                                </h1>
                                 <table class="font-semibold text-xs sm:text-sm lg:text-[18px] w-full">
                                     <tr>
                                         <td class="pb-1 pr-2">Latitude</td>
@@ -77,7 +85,8 @@
                                 </table>
                             </div>
                             <div class="flex items-center justify-center">
-                                <i class="fa-solid fa-location-dot text-[50px] sm:text-[80px] lg:text-[120px] rotate-45 text-white/25"></i>
+                                <i
+                                    class="fa-solid fa-location-dot text-[50px] sm:text-[80px] lg:text-[120px] rotate-45 text-white/25"></i>
                             </div>
                         </div>
                     </div>
@@ -85,7 +94,8 @@
                     <div class="bg-[#262628] border border-[#676767] p-3 sm:p-4 mt-3 rounded-xl">
                         <div class="grid grid-cols-2 gap-2">
                             <div class="text-left col-span-2">
-                                <h1 class="text-white/50 text-sm sm:text-base lg:text-[25px] font-semibold">Kecepatan Angin</h1>
+                                <h1 class="text-white/50 text-sm sm:text-base lg:text-[25px] font-semibold">Kecepatan
+                                    Angin</h1>
                             </div>
                             <div class="text-left my-auto text-sm sm:text-lg lg:text-[25px] font-semibold">
                                 <span id="speed-wind">-</span> m/s
@@ -99,7 +109,8 @@
                     <div class="bg-[#262628] border border-[#676767] p-3 sm:p-4 mt-3 rounded-xl">
                         <div class="grid grid-cols-2 gap-2">
                             <div class="text-left col-span-2">
-                                <h1 class="text-white/50 text-sm sm:text-base lg:text-[25px] font-semibold">Kecepatan Kapal</h1>
+                                <h1 class="text-white/50 text-sm sm:text-base lg:text-[25px] font-semibold">Kecepatan
+                                    Kapal</h1>
                             </div>
                             <div class="text-left my-auto text-sm sm:text-lg lg:text-[25px] font-semibold">
                                 <span id="speed-ship">-</span> m/s
@@ -117,37 +128,45 @@
                 <div class="grid grid-cols-2 gap-2 sm:gap-3">
                     <div id="log-enter-arena" class="bg-[#C58709] border border-[#676767] p-2 sm:p-4 mt-3 rounded-xl">
                         <div class="flex items-center gap-2">
-                            <i class="log-icon fa-solid fa-circle-exclamation text-[35px] sm:text-[55px] lg:text-[70px] text-white/50 shrink-0"></i>
+                            <i
+                                class="log-icon fa-solid fa-circle-exclamation text-[35px] sm:text-[55px] lg:text-[70px] text-white/50 shrink-0"></i>
                             <div class="text-left">
                                 <h1 class="text-xs sm:text-base lg:text-[25px] font-semibold">Masuk Stage</h1>
-                                <span class="log-status text-white/50 text-xs sm:text-base lg:text-[25px] font-semibold">Pending</span>
+                                <span
+                                    class="log-status text-white/50 text-xs sm:text-base lg:text-[25px] font-semibold">Pending</span>
                             </div>
                         </div>
                     </div>
                     <div id="log-ready" class="bg-[#C58709] border border-[#676767] p-2 sm:p-4 mt-3 rounded-xl">
                         <div class="flex items-center gap-2">
-                            <i class="log-icon fa-solid fa-circle-exclamation text-[35px] sm:text-[55px] lg:text-[70px] text-white/50 shrink-0"></i>
+                            <i
+                                class="log-icon fa-solid fa-circle-exclamation text-[35px] sm:text-[55px] lg:text-[70px] text-white/50 shrink-0"></i>
                             <div class="text-left">
                                 <h1 class="text-xs sm:text-base lg:text-[25px] font-semibold">Posisi Siap</h1>
-                                <span class="log-status text-white/50 text-xs sm:text-base lg:text-[25px] font-semibold">Pending</span>
+                                <span
+                                    class="log-status text-white/50 text-xs sm:text-base lg:text-[25px] font-semibold">Pending</span>
                             </div>
                         </div>
                     </div>
                     <div id="log-start" class="bg-[#C58709] border border-[#676767] p-2 sm:p-4 mt-3 rounded-xl">
                         <div class="flex items-center gap-2">
-                            <i class="log-icon fa-solid fa-circle-exclamation text-[35px] sm:text-[55px] lg:text-[70px] text-white/50 shrink-0"></i>
+                            <i
+                                class="log-icon fa-solid fa-circle-exclamation text-[35px] sm:text-[55px] lg:text-[70px] text-white/50 shrink-0"></i>
                             <div class="text-left">
                                 <h1 class="text-xs sm:text-base lg:text-[25px] font-semibold">Start</h1>
-                                <span class="log-status text-white/50 text-xs sm:text-base lg:text-[25px] font-semibold">Pending</span>
+                                <span
+                                    class="log-status text-white/50 text-xs sm:text-base lg:text-[25px] font-semibold">Pending</span>
                             </div>
                         </div>
                     </div>
                     <div id="log-finish" class="bg-[#C58709] border border-[#676767] p-2 sm:p-4 mt-3 rounded-xl">
                         <div class="flex items-center gap-2">
-                            <i class="log-icon fa-solid fa-circle-exclamation text-[35px] sm:text-[55px] lg:text-[70px] text-white/50 shrink-0"></i>
+                            <i
+                                class="log-icon fa-solid fa-circle-exclamation text-[35px] sm:text-[55px] lg:text-[70px] text-white/50 shrink-0"></i>
                             <div class="text-left">
                                 <h1 class="text-xs sm:text-base lg:text-[25px] font-semibold">Finish</h1>
-                                <span class="log-status text-white/50 text-xs sm:text-base lg:text-[25px] font-semibold">Pending</span>
+                                <span
+                                    class="log-status text-white/50 text-xs sm:text-base lg:text-[25px] font-semibold">Pending</span>
                             </div>
                         </div>
                     </div>
@@ -159,11 +178,15 @@
                 <div class="grid grid-cols-2 gap-3 mb-3">
                     <div class="mt-3 text-center">
                         <h1 class="text-sm sm:text-xl lg:text-[30px] font-bold">Kamera Atas</h1>
-                        <video id="video1" class="rounded-xl mt-2 w-full h-[100px] sm:h-[140px] lg:h-[180px] object-cover bg-[#262628]" autoplay playsinline></video>
+                        <video id="video1"
+                            class="rounded-xl mt-2 w-full h-[100px] sm:h-[140px] lg:h-[180px] object-cover bg-[#262628]"
+                            autoplay playsinline></video>
                     </div>
                     <div class="mt-3 text-center">
                         <h1 class="text-sm sm:text-xl lg:text-[30px] font-bold">Kamera Bawah</h1>
-                        <video id="video2" class="rounded-xl mt-2 w-full h-[100px] sm:h-[140px] lg:h-[180px] object-cover bg-[#262628]" autoplay playsinline></video>
+                        <video id="video2"
+                            class="rounded-xl mt-2 w-full h-[100px] sm:h-[140px] lg:h-[180px] object-cover bg-[#262628]"
+                            autoplay playsinline></video>
                     </div>
                     <div class="col-span-2">
                         <h1 class="text-sm sm:text-xl lg:text-[30px] font-bold">Peta</h1>
@@ -182,23 +205,35 @@
             <div class="flex gap-3 mb-6">
                 <label class="bg-[#262628] rounded-xl px-4 py-2 flex flex-col items-center gap-1 cursor-pointer">
                     <span class="font-bold text-sm">Masuk Stage</span>
-                    <input type="checkbox" id="switch-enter-arena" class="sr-only peer" onchange="toggleLog('enter_arena', this.checked)">
-                    <div class="w-10 h-6 bg-white/30 peer-checked:bg-white rounded-full relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-[#262628] after:rounded-full after:h-5 after:w-5 peer-checked:after:translate-x-4 after:transition-transform"></div>
+                    <input type="checkbox" id="switch-enter-arena" class="sr-only peer"
+                        onchange="toggleLog('enter_arena', this.checked)">
+                    <div
+                        class="w-10 h-6 bg-white/30 peer-checked:bg-white rounded-full relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-[#262628] after:rounded-full after:h-5 after:w-5 peer-checked:after:translate-x-4 after:transition-transform">
+                    </div>
                 </label>
                 <label class="bg-[#262628] rounded-xl px-4 py-2 flex flex-col items-center gap-1 cursor-pointer">
                     <span class="font-bold text-sm">Posisi Siap</span>
-                    <input type="checkbox" id="switch-ready" class="sr-only peer" onchange="toggleLog('ready', this.checked)">
-                    <div class="w-10 h-6 bg-white/30 peer-checked:bg-white rounded-full relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-[#262628] after:rounded-full after:h-5 after:w-5 peer-checked:after:translate-x-4 after:transition-transform"></div>
+                    <input type="checkbox" id="switch-ready" class="sr-only peer"
+                        onchange="toggleLog('ready', this.checked)">
+                    <div
+                        class="w-10 h-6 bg-white/30 peer-checked:bg-white rounded-full relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-[#262628] after:rounded-full after:h-5 after:w-5 peer-checked:after:translate-x-4 after:transition-transform">
+                    </div>
                 </label>
                 <label class="bg-[#262628] rounded-xl px-4 py-2 flex flex-col items-center gap-1 cursor-pointer">
                     <span class="font-bold text-sm">Start</span>
-                    <input type="checkbox" id="switch-start" class="sr-only peer" onchange="toggleLog('start', this.checked)">
-                    <div class="w-10 h-6 bg-white/30 peer-checked:bg-white rounded-full relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-[#262628] after:rounded-full after:h-5 after:w-5 peer-checked:after:translate-x-4 after:transition-transform"></div>
+                    <input type="checkbox" id="switch-start" class="sr-only peer"
+                        onchange="toggleLog('start', this.checked)">
+                    <div
+                        class="w-10 h-6 bg-white/30 peer-checked:bg-white rounded-full relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-[#262628] after:rounded-full after:h-5 after:w-5 peer-checked:after:translate-x-4 after:transition-transform">
+                    </div>
                 </label>
                 <label class="bg-[#262628] rounded-xl px-4 py-2 flex flex-col items-center gap-1 cursor-pointer">
                     <span class="font-bold text-sm">Finish</span>
-                    <input type="checkbox" id="switch-finish" class="sr-only peer" onchange="toggleLog('finish', this.checked)">
-                    <div class="w-10 h-6 bg-white/30 peer-checked:bg-white rounded-full relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-[#262628] after:rounded-full after:h-5 after:w-5 peer-checked:after:translate-x-4 after:transition-transform"></div>
+                    <input type="checkbox" id="switch-finish" class="sr-only peer"
+                        onchange="toggleLog('finish', this.checked)">
+                    <div
+                        class="w-10 h-6 bg-white/30 peer-checked:bg-white rounded-full relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-[#262628] after:rounded-full after:h-5 after:w-5 peer-checked:after:translate-x-4 after:transition-transform">
+                    </div>
                 </label>
             </div>
 
@@ -215,60 +250,84 @@
                 <div class="bg-[#262628] border border-[#676767] rounded-xl p-3 sm:p-4 text-center">
                     <h4 class="text-sm sm:text-[18px] font-bold">Arena Lomba 1</h4>
                     <p class="text-white/50 text-xs sm:text-sm mb-3">Data Kordinat</p>
-                    <div class="bg-[#1a1a1a] rounded-xl w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                    <div
+                        class="bg-[#1a1a1a] rounded-xl w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mx-auto mb-3 sm:mb-4">
                         <span class="text-xl sm:text-[32px] font-black" id="count-arena-1">-</span>
                     </div>
                     <div class="flex justify-center items-center gap-2">
                         <label class="flex items-center gap-1 sm:gap-2 cursor-pointer">
                             <span class="text-xs sm:text-sm font-bold text-white/50" id="label-arena-1">Off</span>
                             <div class="relative">
-                                <input type="checkbox" id="switch-arena-1" class="sr-only peer" onchange="toggleArena(1, this.checked)">
-                                <div class="w-9 sm:w-11 h-5 sm:h-6 bg-[#555] peer-checked:bg-[#285E2A] rounded-full transition-colors"></div>
-                                <div class="absolute top-0.5 left-0.5 w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full transition-transform peer-checked:translate-x-4 sm:peer-checked:translate-x-5"></div>
+                                <input type="checkbox" id="switch-arena-1" class="sr-only peer"
+                                    onchange="toggleArena(1, this.checked)">
+                                <div
+                                    class="w-9 sm:w-11 h-5 sm:h-6 bg-[#555] peer-checked:bg-[#285E2A] rounded-full transition-colors">
+                                </div>
+                                <div
+                                    class="absolute top-0.5 left-0.5 w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full transition-transform peer-checked:translate-x-4 sm:peer-checked:translate-x-5">
+                                </div>
                             </div>
                         </label>
-                        <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold px-2 sm:px-4 py-1 sm:py-1.5 rounded-full transition-colors">Edit</button>
-                        <button class="bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-bold px-2 sm:px-4 py-1 sm:py-1.5 rounded-full transition-colors">Hapus</button>
+                        <button
+                            class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold px-2 sm:px-4 py-1 sm:py-1.5 rounded-full transition-colors">Edit</button>
+                        <button
+                            class="bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-bold px-2 sm:px-4 py-1 sm:py-1.5 rounded-full transition-colors">Hapus</button>
                     </div>
                 </div>
                 <!-- Card Arena 2 -->
                 <div class="bg-[#262628] border border-[#676767] rounded-xl p-3 sm:p-4 text-center">
                     <h4 class="text-sm sm:text-[18px] font-bold">Arena Lomba 2</h4>
                     <p class="text-white/50 text-xs sm:text-sm mb-3">Data Kordinat</p>
-                    <div class="bg-[#1a1a1a] rounded-xl w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                    <div
+                        class="bg-[#1a1a1a] rounded-xl w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mx-auto mb-3 sm:mb-4">
                         <span class="text-xl sm:text-[32px] font-black" id="count-arena-2">-</span>
                     </div>
                     <div class="flex justify-center items-center gap-2">
                         <label class="flex items-center gap-1 sm:gap-2 cursor-pointer">
                             <span class="text-xs sm:text-sm font-bold text-white/50" id="label-arena-2">Off</span>
                             <div class="relative">
-                                <input type="checkbox" id="switch-arena-2" class="sr-only peer" onchange="toggleArena(2, this.checked)">
-                                <div class="w-9 sm:w-11 h-5 sm:h-6 bg-[#555] peer-checked:bg-[#285E2A] rounded-full transition-colors"></div>
-                                <div class="absolute top-0.5 left-0.5 w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full transition-transform peer-checked:translate-x-4 sm:peer-checked:translate-x-5"></div>
+                                <input type="checkbox" id="switch-arena-2" class="sr-only peer"
+                                    onchange="toggleArena(2, this.checked)">
+                                <div
+                                    class="w-9 sm:w-11 h-5 sm:h-6 bg-[#555] peer-checked:bg-[#285E2A] rounded-full transition-colors">
+                                </div>
+                                <div
+                                    class="absolute top-0.5 left-0.5 w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full transition-transform peer-checked:translate-x-4 sm:peer-checked:translate-x-5">
+                                </div>
                             </div>
                         </label>
-                        <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold px-2 sm:px-4 py-1 sm:py-1.5 rounded-full transition-colors">Edit</button>
-                        <button class="bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-bold px-2 sm:px-4 py-1 sm:py-1.5 rounded-full transition-colors">Hapus</button>
+                        <button
+                            class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold px-2 sm:px-4 py-1 sm:py-1.5 rounded-full transition-colors">Edit</button>
+                        <button
+                            class="bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-bold px-2 sm:px-4 py-1 sm:py-1.5 rounded-full transition-colors">Hapus</button>
                     </div>
                 </div>
                 <!-- Card Arena 3 -->
                 <div class="bg-[#262628] border border-[#676767] rounded-xl p-3 sm:p-4 text-center">
                     <h4 class="text-sm sm:text-[18px] font-bold">Arena Lomba 3</h4>
                     <p class="text-white/50 text-xs sm:text-sm mb-3">Data Kordinat</p>
-                    <div class="bg-[#1a1a1a] rounded-xl w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                    <div
+                        class="bg-[#1a1a1a] rounded-xl w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center mx-auto mb-3 sm:mb-4">
                         <span class="text-xl sm:text-[32px] font-black" id="count-arena-3">-</span>
                     </div>
                     <div class="flex justify-center items-center gap-2">
                         <label class="flex items-center gap-1 sm:gap-2 cursor-pointer">
                             <span class="text-xs sm:text-sm font-bold text-white/50" id="label-arena-3">Off</span>
                             <div class="relative">
-                                <input type="checkbox" id="switch-arena-3" class="sr-only peer" onchange="toggleArena(3, this.checked)">
-                                <div class="w-9 sm:w-11 h-5 sm:h-6 bg-[#555] peer-checked:bg-[#285E2A] rounded-full transition-colors"></div>
-                                <div class="absolute top-0.5 left-0.5 w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full transition-transform peer-checked:translate-x-4 sm:peer-checked:translate-x-5"></div>
+                                <input type="checkbox" id="switch-arena-3" class="sr-only peer"
+                                    onchange="toggleArena(3, this.checked)">
+                                <div
+                                    class="w-9 sm:w-11 h-5 sm:h-6 bg-[#555] peer-checked:bg-[#285E2A] rounded-full transition-colors">
+                                </div>
+                                <div
+                                    class="absolute top-0.5 left-0.5 w-4 h-4 sm:w-5 sm:h-5 bg-white rounded-full transition-transform peer-checked:translate-x-4 sm:peer-checked:translate-x-5">
+                                </div>
                             </div>
                         </label>
-                        <button class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold px-2 sm:px-4 py-1 sm:py-1.5 rounded-full transition-colors">Edit</button>
-                        <button class="bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-bold px-2 sm:px-4 py-1 sm:py-1.5 rounded-full transition-colors">Hapus</button>
+                        <button
+                            class="bg-blue-600 hover:bg-blue-700 text-white text-xs sm:text-sm font-bold px-2 sm:px-4 py-1 sm:py-1.5 rounded-full transition-colors">Edit</button>
+                        <button
+                            class="bg-red-600 hover:bg-red-700 text-white text-xs sm:text-sm font-bold px-2 sm:px-4 py-1 sm:py-1.5 rounded-full transition-colors">Hapus</button>
                     </div>
                 </div>
             </div>
@@ -295,8 +354,14 @@
                     <tbody id="tbodyFinish">
                         <tr>
                             <td class="border border-[#555] px-2 sm:px-3 py-2">1</td>
-                            <td class="border border-[#555] px-2 py-1"><input type="text" id="finish-lat" placeholder="Latitude" class="bg-transparent w-full outline-none text-white placeholder-white/30 text-xs sm:text-sm"></td>
-                            <td class="border border-[#555] px-2 py-1"><input type="text" id="finish-lng" placeholder="Longitude" class="bg-transparent w-full outline-none text-white placeholder-white/30 text-xs sm:text-sm"></td>
+                            <td class="border border-[#555] px-2 py-1"><input type="text" id="finish-lat"
+                                    placeholder="Latitude"
+                                    class="bg-transparent w-full outline-none text-white placeholder-white/30 text-xs sm:text-sm">
+                            </td>
+                            <td class="border border-[#555] px-2 py-1"><input type="text" id="finish-lng"
+                                    placeholder="Longitude"
+                                    class="bg-transparent w-full outline-none text-white placeholder-white/30 text-xs sm:text-sm">
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -310,10 +375,17 @@
 
     <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
     <script>
-        const map = L.map('map').setView([-7.960061243011885, 112.62048652662472], 15);
+        const map = L.map('map', {
+            dragging: false,
+            scrollWheelZoom: false,
+            doubleClickZoom: false,
+            touchZoom: false,
+            boxZoom: false,
+            keyboard: false,
+            zoomControl: false
+        }).setView([-7.960061243011885, 112.62048652662472], 15);
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
         }).addTo(map);
         setTimeout(() => map.invalidateSize(), 300);
 
@@ -413,4 +485,5 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="firebase.js"></script>
 </body>
+
 </html>

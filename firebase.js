@@ -56,7 +56,7 @@ if (page === 'guest.html') {
         map.on('dragstart', () => followShip = false);
 
         const shipIcon = L.icon({
-            iconUrl: 'https://cdn-icons-png.flaticon.com/512/3082/3082383.png',
+            iconUrl: 'img/sailingB.png',
             iconSize: [40, 40],
             iconAnchor: [20, 20]
         });
@@ -168,7 +168,7 @@ if (page === 'admin.html') {
         map.on('dragstart', () => followShip = false);
 
         const shipIcon = L.icon({
-            iconUrl: 'img/sailing-boat.png.png',
+            iconUrl: 'img/sailingB.png',
             iconSize: [20, 20],
             iconAnchor: [20, 20]
         });
@@ -182,7 +182,6 @@ if (page === 'admin.html') {
             shipMarker.setLatLng(latlng);
             document.getElementById('ship-lat').textContent = pos.latitude;
             document.getElementById('ship-lng').textContent = pos.longitude;
-            // Ikuti kapal jika belum di-drag manual
             if (followShip) map.setView(latlng, 17);
         });
 
