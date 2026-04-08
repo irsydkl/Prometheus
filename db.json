@@ -1,0 +1,60 @@
+{
+    "ship": {
+        "position": {
+            "latitude": -7.960061243011885,
+            "longitude": 112.62048652662472
+        },
+        "speed": {
+            "wind": 1234,
+            "ship": 1234
+        },
+        "log": {
+            "enter_arena": true,
+            "ready": true,
+            "start": false,
+            "finish": false
+        }
+    },
+    "arena": {
+        "1": {
+            "name": "Arena Lomba 1",
+            "status": false,
+            "color_1": "#285E2A",
+            "buoys_1": {
+                "buoy_1": {
+                    "lat": -7.9585,
+                    "lng": 112.6190
+                },
+                "buoy_2": {
+                    "lat": -7.9590,
+                    "lng": 112.6192
+                }
+            },
+            "color_2": "#C58709",
+            "buoys_2": {
+                "buoy_1": {
+                    "lat": -7.9612,
+                    "lng": 112.6193
+                },
+                "buoy_2": {
+                    "lat": -7.9614,
+                    "lng": 112.6197
+                }
+            },
+            "finish": {
+                "latitude": -7.9580,
+                "longitude": 112.6195
+            }
+        }
+    },
+    "users": {
+        "admin": {
+            "username": "prometheus26",
+            "role": "admin"
+        },
+        "guest": {
+            "username": "guest",
+            "role": "guest"
+        }
+    }
+}

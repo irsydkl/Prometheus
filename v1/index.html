@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring Kapal - Prometheus</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://kit.fontawesome.com/05aea6e721.js" crossorigin="anonymous"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+
+        .outfit {
+            font-family: 'Outfit';
+        }
+    </style>
+</head>
+
+<body class="outfit bg-[#0d0d1a] min-h-screen flex items-center justify-center">
+
+    <div class="bg-gradient-to-b from-[#6b6b6b] to-[#1e1d24] rounded-2xl p-8 w-[380px] shadow-2xl">
+        <div class="flex justify-center items-center gap-3 mb-5">
+            <img src="img/Um.png" class="h-10">
+            <img src="img/Vokasi.png" class="h-10">
+            <img src="img/Prometheus.png" class="h-10">
+        </div>
+        <h1 class="text-white text-2xl font-bold text-center mb-6">Login Admin</h1>
+        <div class="flex flex-col gap-4">
+            <div>
+                <label class="text-white text-sm font-medium mb-1 block">Email</label>
+                <input type="text" id="inputUsername" placeholder="Email"
+                    class="w-full bg-white text-gray-800 rounded-lg px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-orange-400 placeholder-gray-400">
+            </div>
+            <div>
+                <label class="text-white text-sm font-medium mb-1 block">Password</label>
+                <input type="password" id="inputPassword" placeholder="Password"
+                    class="w-full bg-white text-gray-800 rounded-lg px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-orange-400 placeholder-gray-400">
+            </div>
+        </div>
+        <div class="flex gap-3 mt-6">
+            <a href="guest.html"
+                class="flex-1 bg-orange-400 hover:bg-orange-500 text-white font-semibold py-2.5 rounded-lg transition-colors text-center">
+                Guest
+            </a>
+            <button onclick="loginAdmin()"
+                class="flex-1 bg-[#3d4a6b] hover:bg-[#4a5a80] text-white font-semibold py-2.5 rounded-lg transition-colors text-center">
+                Login
+            </button>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+    <!-- Firebase core -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="firebase.js"></script>
+</body>
+
+</html>

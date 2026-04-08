@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monitoring Kapal - Prometheus (Admin)</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://kit.fontawesome.com/05aea6e721.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
+        .outfit { font-family: 'Outfit'; }
+        .leaflet-container { z-index: 1 !important; }
+    </style>
+</head>
+
+<body class="outfit bg-[#010101]">
+    <button data-drawer-target="default-sidebar" data-drawer-toggle="default-sidebar" aria-controls="default-sidebar"
+        type="button"
+        class="text-heading bg-transparent box-border border border-transparent hover:bg-neutral-secondary-medium focus:ring-4 focus:ring-neutral-tertiary font-medium leading-5 rounded-base ms-3 mt-3 text-sm p-2 focus:outline-none inline-flex sm:hidden">
+        <span class="sr-only">Open sidebar</span>
+        <svg class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M5 7h14M5 12h14M5 17h10" />
+        </svg>
+    </button>
+
+    <aside id="default-sidebar"
+        class="fixed top-0 left-0 z-40 w-[100px] h-full transition-transform -translate-x-full sm:translate-x-0"
+        aria-label="Sidebar">
+        <div class="h-full bg-[#141414] flex flex-col">
+            <ul class="flex-1">
+                <li>
+                    <ul class="space-y-2 px-5 py-4 font-medium bg-gradient-to-b from-[#848484] to-[#141414]">
+                        <li><img src="img/Um.png"></li>
+                        <li><img src="img/Vokasi.png"></li>
+                        <li><img src="img/Prometheus.png"></li>
+                    </ul>
+                </li>
+                <li class="flex items-center justify-center py-[140px]">
+                    <span class="inline-block -rotate-90 text-white text-[40px] tracking-widest font-bold whitespace-nowrap">PROMETHEUS</span>
+                </li>
+            </ul>
+            <div class="flex justify-center pb-6">
+                <button onclick="logout()" class="bg-red-600 hover:bg-red-800 text-white font-bold px-3 py-2 rounded-xl transition-colors text-sm">Logout</button>
+            </div>
+        </div>
+    </aside>
+
+    <div class="sm:ml-[100px] min-h-screen bg-[#010101]">
+        <div class="grid grid-cols-2 gap-4 p-5">
+            <!-- Kolom Kiri: Informasi Kapal -->
+            <div class="bg-[#17161B] text-white text-center rounded-xl p-4">
+                <span class="text-[25px] font-bold"><i class="fa-solid fa-circle-info mr-3"></i>Informasi Kapal</span>
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <!-- Posisi Kapal -->
+                    <div class="bg-[#262628] border border-[#676767] col-span-2 p-4 mt-3 rounded-xl">
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="col-span-2 text-left">
+                                <h1 class="text-white/50 text-[25px] font-semibold">Posisi Kapal</h1>
+                                <table class="font-semibold text-[25px] w-full ml-4">
+                                    <tr>
+                                        <td class="pb-1 pr-4">Latitude</td>
+                                        <td class="pb-1 pr-4">:</td>
+                                        <td class="text-white pb-1" id="ship-lat">-</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="pr-4">Longitude</td>
+                                        <td class="pr-4">:</td>
+                                        <td class="text-white" id="ship-lng">-</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div><i class="fa-solid fa-location-dot text-[120px] rotate-45 text-white/25"></i></div>
+                        </div>
+                    </div>
+                    <!-- Kecepatan Angin -->
+                    <div class="bg-[#262628] border border-[#676767] p-4 mt-3 rounded-xl">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="text-left col-span-2">
+                                <h1 class="text-white/50 text-[25px] font-semibold">Kecepatan Angin</h1>
+                            </div>
+                            <div class="text-left my-auto ml-4 text-[25px] font-semibold">
+                                <span id="speed-wind">-</span> m/s
+                            </div>
+                            <div><i class="fa-solid fa-wind text-[70px] text-white/25"></i></div>
+                        </div>
+                    </div>
+                    <!-- Kecepatan Kapal -->
+                    <div class="bg-[#262628] border border-[#676767] p-4 mt-3 rounded-xl">
+                        <div class="grid grid-cols-2 gap-3">
+                            <div class="text-left col-span-2">
+                                <h1 class="text-white/50 text-[25px] font-semibold">Kecepatan Kapal</h1>
+                            </div>
+                            <div class="text-left my-auto ml-4 text-[25px] font-semibold">
+                                <span id="speed-ship">-</span> m/s
+                            </div>
+                            <div><i class="fa-solid fa-ship text-[70px] text-white/25"></i></div>
+                        </div>
+                    </div>
+                </div>
+
+                <span class="text-[25px] font-bold"><i class="fa-solid fa-circle-info mr-3"></i>Log Kapal</span>
+                <div class="grid grid-cols-2 gap-3">
+                    <!-- Masuk Stage -->
+                    <div id="log-enter-arena" class="bg-[#C58709] border border-[#676767] p-4 mt-3 rounded-xl">
+                        <div class="grid grid-cols-3 gap-2">
+                            <div><i class="log-icon fa-solid fa-circle-exclamation text-[80px] text-white/50"></i></div>
+                            <div class="text-left col-span-2">
+                                <h1 class="text-[25px] font-semibold">Masuk Stage</h1>
+                                <span class="log-status text-white/50 text-[25px] font-semibold">Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Posisi Siap -->
+                    <div id="log-ready" class="bg-[#C58709] border border-[#676767] p-4 mt-3 rounded-xl">
+                        <div class="grid grid-cols-3 gap-2">
+                            <div><i class="log-icon fa-solid fa-circle-exclamation text-[80px] text-white/50"></i></div>
+                            <div class="text-left col-span-2">
+                                <h1 class="text-[25px] font-semibold">Posisi Siap</h1>
+                                <span class="log-status text-white/50 text-[25px] font-semibold">Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Start -->
+                    <div id="log-start" class="bg-[#C58709] border border-[#676767] p-4 mt-3 rounded-xl">
+                        <div class="grid grid-cols-3 gap-2">
+                            <div><i class="log-icon fa-solid fa-circle-exclamation text-[80px] text-white/50"></i></div>
+                            <div class="text-left col-span-2">
+                                <h1 class="text-[25px] font-semibold">Start</h1>
+                                <span class="log-status text-white/50 text-[25px] font-semibold">Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Finish -->
+                    <div id="log-finish" class="bg-[#C58709] border border-[#676767] p-4 mt-3 rounded-xl">
+                        <div class="grid grid-cols-3 gap-2">
+                            <div><i class="log-icon fa-solid fa-circle-exclamation text-[80px] text-white/50"></i></div>
+                            <div class="text-left col-span-2">
+                                <h1 class="text-[25px] font-semibold">Finish</h1>
+                                <span class="log-status text-white/50 text-[25px] font-semibold">Pending</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kolom Kanan: Kamera & Peta -->
+            <div class="bg-[#17161B] text-white text-center rounded-xl p-4">
+                <div class="grid grid-cols-2 gap-3 mb-3">
+                    <div class="mt-3 text-center">
+                        <h1 class="text-[30px] font-bold">Kamera Atas</h1>
+                        <video id="video1" class="rounded-xl mt-2 w-full h-[180px] object-cover" autoplay playsinline></video>
+                    </div>
+                    <div class="mt-3 text-center">
+                        <h1 class="text-[30px] font-bold">Kamera Bawah</h1>
+                        <video id="video2" class="rounded-xl mt-2 w-full h-[180px] object-cover" autoplay playsinline></video>
+                    </div>
+                    <div class="col-span-2">
+                        <h1 class="text-[30px] font-bold">Peta</h1>
+                        <div id="map" class="w-full h-[380px] rounded-xl"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section Data Kapal dan Informasi -->
+        <div class="mx-5 mb-5 bg-[#17161B] text-white rounded-xl p-5">
+            <h2 class="text-[22px] font-bold mb-5">Data Kapal dan Informasi</h2>
+
+            <!-- Status Log Kapal -->
+            <h3 class="text-[18px] font-bold mb-3">Status Log Kapal</h3>
+            <div class="flex gap-3 mb-6">
+                <label class="bg-[#262628] rounded-xl px-4 py-2 flex flex-col items-center gap-1 cursor-pointer">
+                    <span class="font-bold text-sm">Masuk Stage</span>
+                    <input type="checkbox" id="switch-enter-arena" class="sr-only peer" onchange="toggleLog('enter_arena', this.checked)">
+                    <div class="w-10 h-6 bg-white/30 peer-checked:bg-white rounded-full relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-[#262628] after:rounded-full after:h-5 after:w-5 peer-checked:after:translate-x-4 after:transition-transform"></div>
+                </label>
+                <label class="bg-[#262628] rounded-xl px-4 py-2 flex flex-col items-center gap-1 cursor-pointer">
+                    <span class="font-bold text-sm">Posisi Siap</span>
+                    <input type="checkbox" id="switch-ready" class="sr-only peer" onchange="toggleLog('ready', this.checked)">
+                    <div class="w-10 h-6 bg-white/30 peer-checked:bg-white rounded-full relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-[#262628] after:rounded-full after:h-5 after:w-5 peer-checked:after:translate-x-4 after:transition-transform"></div>
+                </label>
+                <label class="bg-[#262628] rounded-xl px-4 py-2 flex flex-col items-center gap-1 cursor-pointer">
+                    <span class="font-bold text-sm">Start</span>
+                    <input type="checkbox" id="switch-start" class="sr-only peer" onchange="toggleLog('start', this.checked)">
+                    <div class="w-10 h-6 bg-white/30 peer-checked:bg-white rounded-full relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-[#262628] after:rounded-full after:h-5 after:w-5 peer-checked:after:translate-x-4 after:transition-transform"></div>
+                </label>
+                <label class="bg-[#262628] rounded-xl px-4 py-2 flex flex-col items-center gap-1 cursor-pointer">
+                    <span class="font-bold text-sm">Finish</span>
+                    <input type="checkbox" id="switch-finish" class="sr-only peer" onchange="toggleLog('finish', this.checked)">
+                    <div class="w-10 h-6 bg-white/30 peer-checked:bg-white rounded-full relative after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-[#262628] after:rounded-full after:h-5 after:w-5 peer-checked:after:translate-x-4 after:transition-transform"></div>
+                </label>
+            </div>
+
+            <!-- Data Kordinat Pembatas Arena -->
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-[18px] font-bold">Data Kordinat Pembatas Arena</h3>
+                <button onclick="document.getElementById('modalKordinat').classList.remove('hidden')"
+                    class="bg-[#285E2A] hover:bg-green-700 text-white font-bold px-6 py-2 rounded-xl transition-colors">Tambah</button>
+            </div>
+            <div class="grid grid-cols-3 gap-4">
+                <!-- Card Arena 1 -->
+                <div class="bg-[#262628] border border-[#676767] rounded-xl p-4 text-center">
+                    <h4 class="text-[18px] font-bold">Arena Lomba 1</h4>
+                    <p class="text-white/50 text-sm mb-3">Data Kordinat</p>
+                    <div class="bg-[#1a1a1a] rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <span class="text-[32px] font-black" id="count-arena-1">-</span>
+                    </div>
+                    <div class="flex justify-center items-center gap-2">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <span class="text-sm font-bold text-white/50" id="label-arena-1">Off</span>
+                            <div class="relative">
+                                <input type="checkbox" id="switch-arena-1" class="sr-only peer" onchange="toggleArena(1, this.checked)">
+                                <div class="w-11 h-6 bg-[#555] peer-checked:bg-[#285E2A] rounded-full transition-colors"></div>
+                                <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
+                            </div>
+                        </label>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold px-4 py-1.5 rounded-full transition-colors">Edit</button>
+                        <button class="bg-red-600 hover:bg-red-700 text-white text-sm font-bold px-4 py-1.5 rounded-full transition-colors">Hapus</button>
+                    </div>
+                </div>
+                <!-- Card Arena 2 -->
+                <div class="bg-[#262628] border border-[#676767] rounded-xl p-4 text-center">
+                    <h4 class="text-[18px] font-bold">Arena Lomba 2</h4>
+                    <p class="text-white/50 text-sm mb-3">Data Kordinat</p>
+                    <div class="bg-[#1a1a1a] rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <span class="text-[32px] font-black" id="count-arena-2">-</span>
+                    </div>
+                    <div class="flex justify-center items-center gap-2">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <span class="text-sm font-bold text-white/50" id="label-arena-2">Off</span>
+                            <div class="relative">
+                                <input type="checkbox" id="switch-arena-2" class="sr-only peer" onchange="toggleArena(2, this.checked)">
+                                <div class="w-11 h-6 bg-[#555] peer-checked:bg-[#285E2A] rounded-full transition-colors"></div>
+                                <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
+                            </div>
+                        </label>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold px-4 py-1.5 rounded-full transition-colors">Edit</button>
+                        <button class="bg-red-600 hover:bg-red-700 text-white text-sm font-bold px-4 py-1.5 rounded-full transition-colors">Hapus</button>
+                    </div>
+                </div>
+                <!-- Card Arena 3 -->
+                <div class="bg-[#262628] border border-[#676767] rounded-xl p-4 text-center">
+                    <h4 class="text-[18px] font-bold">Arena Lomba 3</h4>
+                    <p class="text-white/50 text-sm mb-3">Data Kordinat</p>
+                    <div class="bg-[#1a1a1a] rounded-xl w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                        <span class="text-[32px] font-black" id="count-arena-3">-</span>
+                    </div>
+                    <div class="flex justify-center items-center gap-2">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <span class="text-sm font-bold text-white/50" id="label-arena-3">Off</span>
+                            <div class="relative">
+                                <input type="checkbox" id="switch-arena-3" class="sr-only peer" onchange="toggleArena(3, this.checked)">
+                                <div class="w-11 h-6 bg-[#555] peer-checked:bg-[#285E2A] rounded-full transition-colors"></div>
+                                <div class="absolute top-0.5 left-0.5 w-5 h-5 bg-white rounded-full transition-transform peer-checked:translate-x-5"></div>
+                            </div>
+                        </label>
+                        <button class="bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold px-4 py-1.5 rounded-full transition-colors">Edit</button>
+                        <button class="bg-red-600 hover:bg-red-700 text-white text-sm font-bold px-4 py-1.5 rounded-full transition-colors">Hapus</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Data Kordinat -->
+    <div id="modalKordinat" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+        <div class="bg-[#2a2a2c] rounded-2xl p-6 w-[700px] max-h-[85vh] overflow-y-auto relative">
+            <button onclick="document.getElementById('modalKordinat').classList.add('hidden')"
+                class="absolute top-4 right-4 text-white/50 hover:text-white text-2xl">&times;</button>
+            <h2 class="text-white text-[22px] font-bold text-center mb-6">Data Kordinat</h2>
+            <div id="tabelContainer"></div>
+            <!-- Kordinat Finish -->
+            <div class="mt-4">
+                <h3 class="text-white font-bold text-[16px] mb-2">Kordinat Finish</h3>
+                <table class="w-full text-white text-sm border-collapse">
+                    <thead>
+                        <tr class="bg-[#1a1a1a]">
+                            <th class="border border-[#555] px-3 py-2 text-left w-12">No</th>
+                            <th class="border border-[#555] px-3 py-2 text-left">Latitude</th>
+                            <th class="border border-[#555] px-3 py-2 text-left">Longitude</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbodyFinish">
+                        <tr>
+                            <td class="border border-[#555] px-3 py-2">1</td>
+                            <td class="border border-[#555] px-2 py-1"><input type="text" id="finish-lat" placeholder="Latitude" class="bg-transparent w-full outline-none text-white placeholder-white/30"></td>
+                            <td class="border border-[#555] px-2 py-1"><input type="text" id="finish-lng" placeholder="Longitude" class="bg-transparent w-full outline-none text-white placeholder-white/30"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="flex justify-end mt-6">
+                <button onclick="simpanKordinat()"
+                    class="bg-[#285E2A] hover:bg-green-700 text-white font-bold px-8 py-2 rounded-xl transition-colors">Simpan</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@4.0.1/dist/flowbite.min.js"></script>
+
+    <!-- Inisialisasi map & kamera SEBELUM firebase.js -->
+    <script>
+        const map = L.map('map').setView([-7.960061243011885, 112.62048652662472], 15);
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap contributors</a>'
+        }).addTo(map);
+        setTimeout(() => map.invalidateSize(), 300);
+
+        const video1 = document.getElementById('video1');
+        const video2 = document.getElementById('video2');
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+                video1.srcObject = stream;
+                video2.srcObject = stream;
+            } catch (error) {
+                console.error("Error accessing camera:", error);
+            }
+        }
+        startCamera();
+
+        // Modal tabel builder
+        const arenaList = [
+            { nama: 'Arena Lomba 1', warna1: '#285E2A', warna2: '#C58709' },
+            { nama: 'Arena Lomba 2', warna1: '#285E2A', warna2: '#C58709' },
+            { nama: 'Arena Lomba 3', warna1: '#285E2A', warna2: '#C58709' },
+        ];
+
+        function buatTabel(arenaIndex, arena) {
+            return `
+            <div class="mb-6 border border-[#444] rounded-xl p-4">
+                <h3 class="text-white font-bold text-[16px] mb-3">${arena.nama}</h3>
+                <div class="mb-3">
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-white text-sm">Warna Set 1:</span>
+                            <input type="color" value="${arena.warna1}" id="color1-${arenaIndex}" class="w-10 h-8 rounded cursor-pointer border-0">
+                        </div>
+                        <button onclick="tambahBaris(${arenaIndex}, 1)"
+                            class="bg-[#285E2A] hover:bg-green-700 text-white text-sm font-bold px-4 py-1.5 rounded-lg transition-colors">+ Tambah Baris</button>
+                    </div>
+                    <table class="w-full text-white text-sm border-collapse">
+                        <thead><tr class="bg-[#1a1a1a]">
+                            <th class="border border-[#555] px-3 py-2 text-left w-12">No</th>
+                            <th class="border border-[#555] px-3 py-2 text-left">Latitude</th>
+                            <th class="border border-[#555] px-3 py-2 text-left">Longitude</th>
+                        </tr></thead>
+                        <tbody id="tbody-${arenaIndex}-1">
+                            <tr>
+                                <td class="border border-[#555] px-3 py-2">1</td>
+                                <td class="border border-[#555] px-2 py-1"><input type="text" placeholder="Latitude" class="bg-transparent w-full outline-none text-white placeholder-white/30"></td>
+                                <td class="border border-[#555] px-2 py-1"><input type="text" placeholder="Longitude" class="bg-transparent w-full outline-none text-white placeholder-white/30"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div>
+                    <div class="flex justify-between items-center mb-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-white text-sm">Warna Set 2:</span>
+                            <input type="color" value="${arena.warna2}" id="color2-${arenaIndex}" class="w-10 h-8 rounded cursor-pointer border-0">
+                        </div>
+                        <button onclick="tambahBaris(${arenaIndex}, 2)"
+                            class="bg-[#285E2A] hover:bg-green-700 text-white text-sm font-bold px-4 py-1.5 rounded-lg transition-colors">+ Tambah Baris</button>
+                    </div>
+                    <table class="w-full text-white text-sm border-collapse">
+                        <thead><tr class="bg-[#1a1a1a]">
+                            <th class="border border-[#555] px-3 py-2 text-left w-12">No</th>
+                            <th class="border border-[#555] px-3 py-2 text-left">Latitude</th>
+                            <th class="border border-[#555] px-3 py-2 text-left">Longitude</th>
+                        </tr></thead>
+                        <tbody id="tbody-${arenaIndex}-2">
+                            <tr>
+                                <td class="border border-[#555] px-3 py-2">1</td>
+                                <td class="border border-[#555] px-2 py-1"><input type="text" placeholder="Latitude" class="bg-transparent w-full outline-none text-white placeholder-white/30"></td>
+                                <td class="border border-[#555] px-2 py-1"><input type="text" placeholder="Longitude" class="bg-transparent w-full outline-none text-white placeholder-white/30"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>`;
+        }
+
+        function tambahBaris(arenaIndex, set) {
+            const tbody = document.getElementById(`tbody-${arenaIndex}-${set}`);
+            const rowCount = tbody.rows.length + 1;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td class="border border-[#555] px-3 py-2">${rowCount}</td>
+                <td class="border border-[#555] px-2 py-1"><input type="text" placeholder="Latitude" class="bg-transparent w-full outline-none text-white placeholder-white/30"></td>
+                <td class="border border-[#555] px-2 py-1"><input type="text" placeholder="Longitude" class="bg-transparent w-full outline-none text-white placeholder-white/30"></td>
+            `;
+            tbody.appendChild(tr);
+        }
+
+        const tabelContainer = document.getElementById('tabelContainer');
+        arenaList.forEach((arena, i) => {
+            tabelContainer.innerHTML += buatTabel(i + 1, arena);
+        });
+    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="firebase.js"></script>
+
+</body>
+</html>
