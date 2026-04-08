@@ -15,3 +15,8 @@
     }
   }
 }
+
+
+comand github :
+- git commit -am "swtchbtn"
+- git push origin main
