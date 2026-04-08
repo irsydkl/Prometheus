@@ -110,11 +110,11 @@ if (page === 'guest.html') {
                 if (arena.buoys_1 && arena.color_1) {
                     Object.values(arena.buoys_1).forEach(buoy => {
                         const m = L.circleMarker([buoy.lat, buoy.lng], {
-                            radius: 10,
+                            radius: 5,
                             color: arena.color_1,
                             fillColor: arena.color_1,
                             fillOpacity: 0.9,
-                            weight: 2
+                            weight: 1
                         }).addTo(map);
                         arenaMarkers[id].push(m);
                     });
@@ -123,11 +123,11 @@ if (page === 'guest.html') {
                 if (arena.buoys_2 && arena.color_2) {
                     Object.values(arena.buoys_2).forEach(buoy => {
                         const m = L.circleMarker([buoy.lat, buoy.lng], {
-                            radius: 10,
+                            radius: 5,
                             color: arena.color_2,
                             fillColor: arena.color_2,
                             fillOpacity: 0.9,
-                            weight: 2
+                            weight: 1
                         }).addTo(map);
                         arenaMarkers[id].push(m);
                     });
@@ -168,8 +168,8 @@ if (page === 'admin.html') {
         map.on('dragstart', () => followShip = false);
 
         const shipIcon = L.icon({
-            iconUrl: 'https://cdn-icons-png.flaticon.com/512/3082/3082383.png',
-            iconSize: [40, 40],
+            iconUrl: 'img/sailing-boat.png.png',
+            iconSize: [20, 20],
             iconAnchor: [20, 20]
         });
         let shipMarker = L.marker([-7.960061243011885, 112.62048652662472], { icon: shipIcon }).addTo(map);
